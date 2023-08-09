@@ -2,7 +2,7 @@
 #include "translations.h"
 
 
-Lang translations::CurrentLanguage = Lang::English;
+Lang translations::CurrentLanguage = Lang::BrazilianPortuguese;
 const LanguageInfo translations::Languages[static_cast<int>(Lang::Max)] =
 {
 	{Lang::Arabic, "ar", "Arabic"},
@@ -22,7 +22,7 @@ const LanguageInfo translations::Languages[static_cast<int>(Lang::Max)] =
 	{Lang::Norwegian, "nb", "Norwegian"},
 	{Lang::Dutch, "nl", "Dutch"},
 	{Lang::Polish, "pl", "Polish"},
-	{Lang::BrazilianPortuguese, "pt_BR", "Brazilian Portuguese"},
+	{Lang::BrazilianPortuguese, "pt_BR", "Português do Brasil"},
 	{Lang::Portuguese, "pt_PT", "Portuguese"},
 	{Lang::Russian, "ru", "Russian"},
 	{Lang::Swedish, "sv", "Swedish"},
@@ -42,7 +42,7 @@ void translations::SetCurrentLanguage(const char* short_name)
 		}
 	}
 
-	assertm(false, "Unknown language");
+	assertm(false, "Idioma desconhecido");
 }
 
 const LanguageInfo* translations::GetCurrentLanguage()
@@ -69,9 +69,9 @@ const char* translations::GetTranslation(Msg id)
 	// Fallback to English if available
 	if (text == nullptr) 
 	{
-		text = Translations.Get(id, Lang::English);
+		text = Translations.Get(id, Lang::BrazilianPortuguese);
 		if (text == nullptr)
-			text = "!Missing English text!";
+			text = "!Missing Portuguese text!";
 	}
 
 	return text;
@@ -319,7 +319,7 @@ const TextArray translations::Translations =
 			{ Lang::Norwegian, "Bonus opp 1 million" },
 			{ Lang::Dutch, "1 miljoen extra bonuspunten" },
 			{ Lang::Polish, "Premia - 1 milion" },
-			{ Lang::BrazilianPortuguese, "Bônus acrescido de 1 milhão" },
+			{ Lang::BrazilianPortuguese, "Bônus aumentado em 1 milhão" },
 			{ Lang::Portuguese, "Bónus aumentado em 1 milhão" },
 			{ Lang::Russian, "Бонус увеличен на 1 миллион" },
 			{ Lang::Swedish, "1 miljon högre bonus" },
@@ -3016,7 +3016,7 @@ const TextArray translations::Translations =
 			{ Lang::Norwegian, "Skyt ut for å godta %s-oppdrag" },
 			{ Lang::Dutch, "Missie %s begint als bal op platform is" },
 			{ Lang::Polish, "Pomost ładowania akceptuje misję %s" },
-			{ Lang::BrazilianPortuguese, "Rampa de lançamento p/ missão %s" },
+			{ Lang::BrazilianPortuguese, "Lance na rampa para aceitar a missão '%s'" },
 			{ Lang::Portuguese, "Lançar p/ rampa para aceitar a missão %s" },
 			{ Lang::Russian, "Пройдите через пусковую установку, чтобы начать миссию %s" },
 			{ Lang::Swedish, "Acceptera uppdraget %s i rampen" },
@@ -5001,6 +5001,7 @@ const TextArray translations::Translations =
 		Msg::ControlJackpotDoubled,
 		{
 			{ Lang::English, "Jackpot Doubled" },
+			{ Lang::BrazilianPortuguese, "Prêmio acumulado dobrado" },
 			{ Lang::Russian, "Джекпот удвоен" },
 		},
 	},
@@ -5372,7 +5373,7 @@ const TextArray translations::Translations =
 			{ Lang::Norwegian, "Dunk venstre bordkant" },
 			{ Lang::Dutch, "Duw naar rechts" },
 			{ Lang::Polish, "Uderzenie w stół z lewej strony" },
-			{ Lang::BrazilianPortuguese, "Tapa à esquerda da mesa" },
+			{ Lang::BrazilianPortuguese, "Tapa à esq. da mesa" },
 			{ Lang::Portuguese, "Pancada do lado esquerdo" },
 			{ Lang::Russian, "Толчок стола слева" },
 			{ Lang::Swedish, "Vänsterstöt" },
@@ -5401,7 +5402,7 @@ const TextArray translations::Translations =
 			{ Lang::Norwegian, "Dunk høyre bordkant" },
 			{ Lang::Dutch, "Duw naar links" },
 			{ Lang::Polish, "Uderzenie w stół z prawej strony" },
-			{ Lang::BrazilianPortuguese, "Tapa à direita da mesa" },
+			{ Lang::BrazilianPortuguese, "Tapa à dir. da mesa" },
 			{ Lang::Portuguese, "Pancada do lado direito" },
 			{ Lang::Russian, "Толчок стола справа" },
 			{ Lang::Swedish, "Högerstöt" },
@@ -5430,7 +5431,7 @@ const TextArray translations::Translations =
 			{ Lang::Norwegian, "Dunk nedre kant" },
 			{ Lang::Dutch, "Duw van onderen" },
 			{ Lang::Polish, "Uderzenie w stół od dołu" },
-			{ Lang::BrazilianPortuguese, "Tapa frontal na mesa" },
+			{ Lang::BrazilianPortuguese, "Tapa frontal" },
 			{ Lang::Portuguese, "Pancada no fundo" },
 			{ Lang::Russian, "Толчок стола снизу" },
 			{ Lang::Swedish, "Uppåtstöt" },
@@ -6082,6 +6083,7 @@ const TextArray translations::Translations =
 		{
 			{ Lang::English, "Uniform Scaling" },
 			{ Lang::Russian, "Сохранение Пропорций" },
+			{ Lang::BrazilianPortuguese, "Manter proporção" },
 			{ Lang::SimplifiedChinese, "锁定宽高比缩放" },
 			{ Lang::TraditionalChinese, "鎖定寬高比縮放" },
 		},
@@ -6178,6 +6180,7 @@ const TextArray translations::Translations =
 		{
 			{ Lang::English, "Table Resolution" },
 			{ Lang::Russian, "Разрешение Стола" },
+			{ Lang::BrazilianPortuguese, "Resolução da tabela" },
 			{ Lang::SimplifiedChinese, "桌面分辨率" },
 			{ Lang::TraditionalChinese, "桌台解析度" },
 		},
@@ -6216,6 +6219,7 @@ const TextArray translations::Translations =
 		{
 			{ Lang::English, "Use Maximum Resolution (640 x 480)" },
 			{ Lang::Russian, "Использовать Максимальное Разрешение (640 x 480)" },
+			{ Lang::BrazilianPortuguese, "Usar resolução máxima (640 x 480)" },
 			{ Lang::SimplifiedChinese, "使用最大分辨率 (640 x 480)" },
 			{ Lang::TraditionalChinese, "使用最大解析度 (640 x 480)" },
 		},
@@ -6225,6 +6229,7 @@ const TextArray translations::Translations =
 		{
 			{ Lang::English, "Use Maximum Resolution (800 x 600)" },
 			{ Lang::Russian, "Использовать Максимальное Разрешение (800 x 600)" },
+			{ Lang::BrazilianPortuguese, "Usar resolução máxima (800 x 600)" },
 			{ Lang::SimplifiedChinese, "使用最大分辨率 (800 x 600)" },
 			{ Lang::TraditionalChinese, "使用最大解析度 (800 x 600)" },
 		},
@@ -6234,6 +6239,7 @@ const TextArray translations::Translations =
 		{
 			{ Lang::English, "Use Maximum Resolution (1024 x 768)" },
 			{ Lang::Russian, "Использовать Максимальное Разрешение (1024 x 768)" },
+			{ Lang::BrazilianPortuguese, "Usar resolução máxima (1024 x 768)" },
 			{ Lang::SimplifiedChinese, "使用最大分辨率 (1024 x 768)" },
 			{ Lang::TraditionalChinese, "使用最大解析度 (1024 x 768)" },
 		},
@@ -6242,6 +6248,7 @@ const TextArray translations::Translations =
 		Msg::Menu1_ToggleShowMenu,
 		{
 			{ Lang::English, "Show Menu"},
+			{ Lang::BrazilianPortuguese, "Mostrar menu" },
 		}
 	}
 };

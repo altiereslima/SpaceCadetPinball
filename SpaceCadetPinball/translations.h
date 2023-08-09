@@ -271,7 +271,7 @@ struct TextArray
 
 		for (auto i = Msg::Min; i < Msg::Max; i = static_cast<Msg>(static_cast<int>(i) + 1))
 		{
-			assertm(contains(i, Lang::English), "English text is mandatory for all keys");
+			assertm(contains(i, Lang::BrazilianPortuguese), "English text is mandatory for all keys");
 		}
 	}
 

@@ -7,7 +7,7 @@
 #include "winmain.h"
 #include "translations.h"
 
-static const char* popupName = "Font Selection";
+static const char* popupName = "Seleção da fonte";
 bool font_selection::ShowDialogFlag = false;
 char font_selection::DialogInputBuffer[512];
 
@@ -31,7 +31,7 @@ void font_selection::RenderDialog()
 	bool unused_open = true;
 	if (ImGui::BeginPopupModal(popupName, &unused_open, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		ImGui::Text("Font file to use: ");
+		ImGui::Text("Arquivo de fonte a ser utilizado: ");
 		ImGui::SameLine();
 		ImGui::InputText("##Font", DialogInputBuffer, IM_ARRAYSIZE(DialogInputBuffer));
 

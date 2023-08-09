@@ -55,9 +55,9 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 {
 	std::set_new_handler(memalloc_failure);
 
-	printf("Game version: %s\n", Version);
-	printf("Command line: %s\n", lpCmdLine);
-	printf("Compiled with: SDL %d.%d.%d;", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+	printf("Versão do jogo: %s\n", Version);
+	printf("Linha de comando: %s\n", lpCmdLine);
+	printf("Compilado com: SDL %d.%d.%d;", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 	printf(" SDL_mixer %d.%d.%d;", SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 	printf(" ImGui %s %s\n", IMGUI_VERSION, ImGuiRender);
 
@@ -66,7 +66,7 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 	if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO |
 		SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
 	{
-		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Could not initialize SDL2", SDL_GetError());
+		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Não foi possível inicializar o SDL2", SDL_GetError());
 		return 1;
 	}
 
@@ -83,7 +83,7 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 	MainWindow = window;
 	if (!window)
 	{
-		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Could not create window", SDL_GetError());
+		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Não foi possível criar a janela", SDL_GetError());
 		return 1;
 	}
 
@@ -101,12 +101,12 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 	}
 	if (!renderer)
 	{
-		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Could not create renderer", SDL_GetError());
+		pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Não foi possível criar o renderizador", SDL_GetError());
 		return 1;
 	}
 	SDL_RendererInfo rendererInfo{};
 	if (!SDL_GetRendererInfo(renderer, &rendererInfo))
-		printf("Using SDL renderer: %s\n", rendererInfo.name);
+		printf("Usando o renderizador SDL: %s\n", rendererInfo.name);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
@@ -119,12 +119,12 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 	{
 		if ((Mix_Init(MIX_INIT_MID_Proxy) & MIX_INIT_MID_Proxy) == 0)
 		{
-			printf("Could not initialize SDL MIDI, music might not work.\nSDL Error: %s\n", SDL_GetError());
+			printf("Não foi possível inicializar o MIDI SDL, a música pode não funcionar.\nErro do SDL: %s\n", SDL_GetError());
 			SDL_ClearError();
 		}
 		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) != 0)
 		{
-			printf("Could not open audio device, continuing without audio.\nSDL Error: %s\n", SDL_GetError());
+			printf("Não foi possível abrir o dispositivo de áudio, continuando sem áudio.\nErro do SDL: %s\n", SDL_GetError());
 			SDL_ClearError();
 		}
 		else
@@ -176,7 +176,7 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 			}
 
 			if (!fontLoaded)
-				printf("Failed to load font: %s, using embedded font.\n", fileName);
+				printf("Falha ao carregar a fonte: %s, usando a fonte incorporada.\n", fileName);
 			io.Fonts->Build();
 		}
 		ImGui_Render_Init(renderer);
@@ -209,16 +209,16 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 
 		if (pb::init())
 		{
-			std::string message = "The .dat file is missing.\n"
-				"Make sure that the game data is present in any of the following locations:\n";
+			std::string message = "O arquivo .dat está ausente.\n"
+				"Verifique se os dados do jogo estão presentes em um dos seguintes locais:";
 			for (auto path : searchPaths)
 			{
 				if (path)
 				{
-					message = message + (path[0] ? path : "working directory") + "\n";
+					message = message + (path[0] ? path : "diretório de trabalho") + "\n";
 				}
 			}
-			pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Could not load game data", message.c_str());
+			pb::ShowMessageBox(SDL_MESSAGEBOX_ERROR, "Não foi possível carregar os dados do jogo", message.c_str());
 			return 1;
 		}
 
@@ -292,7 +292,7 @@ void winmain::MainLoop()
 			{
 				char buf[60];
 				auto elapsedSec = DurationMs(curTime - prevTime).count() * 0.001;
-				snprintf(buf, sizeof buf, "Updates/sec = %02.02f Frames/sec = %02.02f ",
+				snprintf(buf, sizeof buf, "Atualizações/seg = %02.02f Quadros/seg = %02.02f ",
 				         updateCounter / elapsedSec, frameCounter / elapsedSec);
 				SDL_SetWindowTitle(MainWindow, buf);
 				FpsDetails = buf;
@@ -387,12 +387,12 @@ void winmain::MainLoop()
 					PrevSdlError = sdlError;
 					if (PrevSdlErrorCount > 0)
 					{
-						printf("SDL Error: ^ Previous Error Repeated %u Times\n", PrevSdlErrorCount + 1);
+						printf("Erro do SDL: ^ Erro anterior repetido %u vezes\n", PrevSdlErrorCount + 1);
 						PrevSdlErrorCount = 0;
 					}
 
 					if (sdlError[0])
-						printf("SDL Error: %s\n", sdlError);
+						printf("Erro do SDL: %s\n", sdlError);
 				}
 				else
 				{
@@ -430,7 +430,7 @@ void winmain::MainLoop()
 
 	if (PrevSdlErrorCount > 0)
 	{
-		printf("SDL Error: ^ Previous Error Repeated %u Times\n", PrevSdlErrorCount);
+		printf("Erro do SDL: ^ Erro anterior repetido %u vezes\n", PrevSdlErrorCount);
 	}
 }
 
@@ -533,7 +533,7 @@ void winmain::RenderUi()
 				ImGui::EndMenu();
 			}
 			ImGuiMenuItemWShortcut(GameBindings::ShowControlDialog);
-			if (ImGui::BeginMenu("Language"))
+			if (ImGui::BeginMenu("Idioma"))
 			{
 				auto currentLanguage = translations::GetCurrentLanguage();
 				for (auto& item : translations::Languages)
@@ -551,21 +551,21 @@ void winmain::RenderUi()
 			}
 			ImGui::Separator();
 
-			if (ImGui::BeginMenu("Audio"))
+			if (ImGui::BeginMenu("Áudio"))
 			{
 				ImGuiMenuItemWShortcut(GameBindings::ToggleSounds, Options.Sounds);
-				if (ImGui::MenuItem("Stereo Sound Effects", nullptr, Options.SoundStereo))
+				if (ImGui::MenuItem("Efeitos sonoros estéreo", nullptr, Options.SoundStereo))
 				{
 					options::toggle(Menu1::SoundStereo);
 				}
-				ImGui::TextUnformatted("Sound Volume");
+				ImGui::TextUnformatted("Volume do som");
 				if (ImGui::SliderInt("##Sound Volume", &Options.SoundVolume.V, options::MinVolume, options::MaxVolume,
 				                     "%d",
 				                     ImGuiSliderFlags_AlwaysClamp))
 				{
 					Sound::SetVolume(Options.SoundVolume);
 				}
-				ImGui::TextUnformatted("Sound Channels");
+				ImGui::TextUnformatted("Canais de som");
 				if (ImGui::SliderInt("##Sound Channels", &Options.SoundChannels.V, options::MinSoundChannels,
 				                     options::MaxSoundChannels, "%d", ImGuiSliderFlags_AlwaysClamp))
 				{
@@ -574,7 +574,7 @@ void winmain::RenderUi()
 				ImGui::Separator();
 
 				ImGuiMenuItemWShortcut(GameBindings::ToggleMusic, Options.Music);
-				ImGui::TextUnformatted("Music Volume");
+				ImGui::TextUnformatted("Volume da música");
 				if (ImGui::SliderInt("##Music Volume", &Options.MusicVolume.V, options::MinVolume, options::MaxVolume,
 				                     "%d",
 				                     ImGuiSliderFlags_AlwaysClamp))
@@ -584,21 +584,21 @@ void winmain::RenderUi()
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::BeginMenu("Graphics"))
+			if (ImGui::BeginMenu("Gráficos"))
 			{
 				if (ImGui::MenuItem(pb::get_rc_string(Msg::Menu1_WindowUniformScale), nullptr, Options.UniformScaling))
 				{
 					options::toggle(Menu1::WindowUniformScale);
 				}
-				if (ImGui::MenuItem("Linear Filtering", nullptr, Options.LinearFiltering))
+				if (ImGui::MenuItem("Filtro linear", nullptr, Options.LinearFiltering))
 				{
 					options::toggle(Menu1::WindowLinearFilter);
 				}
-				if (ImGui::MenuItem("Integer Scaling", nullptr, Options.IntegerScaling))
+				if (ImGui::MenuItem("Escala por inteiro", nullptr, Options.IntegerScaling))
 				{
 					options::toggle(Menu1::WindowIntegerScale);
 				}
-				if (ImGui::DragFloat("UI Scale", &Options.UIScale.V, 0.005f, 0.8f, 5,
+				if (ImGui::DragFloat("Escala da interface", &Options.UIScale.V, 0.005f, 0.8f, 5,
 				                     "%.2f", ImGuiSliderFlags_AlwaysClamp))
 				{
 					ImIO->FontGlobalScale = Options.UIScale;
@@ -607,7 +607,7 @@ void winmain::RenderUi()
 
 				char buffer[80]{};
 				auto changed = false;
-				if (ImGui::MenuItem("Set Default UPS/FPS"))
+				if (ImGui::MenuItem("Definir padrão UPS/FPS"))
 				{
 					changed = true;
 					Options.UpdatesPerSecond = options::DefUps;
@@ -625,12 +625,12 @@ void winmain::RenderUi()
 					changed = true;
 					Options.UpdatesPerSecond = std::max(Options.UpdatesPerSecond.V, Options.FramesPerSecond.V);
 				}
-				snprintf(buffer, sizeof buffer - 1, "Uncapped UPS (FPS ratio %02.02f)", UpdateToFrameRatio);
+				snprintf(buffer, sizeof buffer - 1, "UPS desbloqueado (taxa de FPS %02.02f)", UpdateToFrameRatio);
 				if (ImGui::MenuItem(buffer, nullptr, Options.UncappedUpdatesPerSecond))
 				{
 					Options.UncappedUpdatesPerSecond ^= true;
 				}
-				if (ImGui::MenuItem("Precise Sleep", nullptr, Options.HybridSleep))
+				if (ImGui::MenuItem("Suspensão precisa", nullptr, Options.HybridSleep))
 				{
 					Options.HybridSleep ^= true;
 					SleepState = WelfordState{};
@@ -643,11 +643,11 @@ void winmain::RenderUi()
 				}
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Hide Cursor", nullptr, Options.HideCursor))
+				if (ImGui::MenuItem("Ocultar cursor", nullptr, Options.HideCursor))
 				{
 					Options.HideCursor ^= true;
 				}
-				if (ImGui::MenuItem("Change Font..."))
+				if (ImGui::MenuItem("Alterar fonte..."))
 				{
 					font_selection::ShowDialog();
 				}
@@ -687,16 +687,16 @@ void winmain::RenderUi()
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::BeginMenu("Game Data"))
+			if (ImGui::BeginMenu("Dados do jogo"))
 			{
-				if (ImGui::MenuItem("Prefer 3DPB Data", nullptr, Options.Prefer3DPBGameData))
+				if (ImGui::MenuItem("Preferir dados 3DPB", nullptr, Options.Prefer3DPBGameData))
 				{
 					options::toggle(Menu1::Prefer3DPBGameData);
 				}
 				ImGui::EndMenu();
 			}
 			ImGui::Separator();
-			if (ImGui::MenuItem("Reset All Options"))
+			if (ImGui::MenuItem("Redefinir todas as opções"))
 			{
 				options::ResetAllOptions();
 				Restart();
@@ -707,50 +707,50 @@ void winmain::RenderUi()
 		if (ImGui::BeginMenu(pb::get_rc_string(Msg::Menu1_Help)))
 		{
 #ifndef NDEBUG
-			if (ImGui::MenuItem("ImGui Demo", nullptr, ShowImGuiDemo))
+			if (ImGui::MenuItem("Demonstração ImGui", nullptr, ShowImGuiDemo))
 			{
 				ShowImGuiDemo ^= true;
 			}
 #endif
-			if (ImGui::MenuItem("Sprite Viewer", nullptr, ShowSpriteViewer))
+			if (ImGui::MenuItem("Visualizador de sprite", nullptr, ShowSpriteViewer))
 			{
 				if (!ShowSpriteViewer)
 					pause(false);
 				ShowSpriteViewer ^= true;
 			}
-			if (pb::cheat_mode && ImGui::MenuItem("Frame Times", nullptr, DispGRhistory))
+			if (pb::cheat_mode && ImGui::MenuItem("Tempos de quadro", nullptr, DispGRhistory))
 			{
 				DispGRhistory ^= true;
 			}
-			if (ImGui::MenuItem("Debug Overlay", nullptr, Options.DebugOverlay))
+			if (ImGui::MenuItem("Sobreposição de depuração", nullptr, Options.DebugOverlay))
 			{
 				Options.DebugOverlay ^= true;
 			}
-			if (Options.DebugOverlay && ImGui::BeginMenu("Overlay Options"))
+			if (Options.DebugOverlay && ImGui::BeginMenu("Opções de sobreposição"))
 			{
-				if (ImGui::MenuItem("Box Grid", nullptr, Options.DebugOverlayGrid))
+				if (ImGui::MenuItem("Grade da caixa", nullptr, Options.DebugOverlayGrid))
 					Options.DebugOverlayGrid ^= true;
-				if (ImGui::MenuItem("Ball Depth Grid", nullptr, Options.DebugOverlayBallDepthGrid))
+				if (ImGui::MenuItem("Grade de profundidade da bola", nullptr, Options.DebugOverlayBallDepthGrid))
 					Options.DebugOverlayBallDepthGrid ^= true;
-				if (ImGui::MenuItem("Sprite Positions", nullptr, Options.DebugOverlaySprites))
+				if (ImGui::MenuItem("Posições de sprite", nullptr, Options.DebugOverlaySprites))
 					Options.DebugOverlaySprites ^= true;
-				if (ImGui::MenuItem("All Edges", nullptr, Options.DebugOverlayAllEdges))
+				if (ImGui::MenuItem("Todas as bordas", nullptr, Options.DebugOverlayAllEdges))
 					Options.DebugOverlayAllEdges ^= true;
-				if (ImGui::MenuItem("Component AABB", nullptr, Options.DebugOverlayAabb))
+				if (ImGui::MenuItem("Componente AABB", nullptr, Options.DebugOverlayAabb))
 					Options.DebugOverlayAabb ^= true;
-				if (ImGui::MenuItem("Ball Position", nullptr, Options.DebugOverlayBallPosition))
+				if (ImGui::MenuItem("Posição da bola", nullptr, Options.DebugOverlayBallPosition))
 					Options.DebugOverlayBallPosition ^= true;
-				if (ImGui::MenuItem("Ball Box Edges", nullptr, Options.DebugOverlayBallEdges))
+				if (ImGui::MenuItem("Bordas de caixa de bola", nullptr, Options.DebugOverlayBallEdges))
 					Options.DebugOverlayBallEdges ^= true;
-				if (ImGui::MenuItem("Sound Positions", nullptr, Options.DebugOverlaySounds))
+				if (ImGui::MenuItem("Posições do som", nullptr, Options.DebugOverlaySounds))
 					Options.DebugOverlaySounds ^= true;
-				if (ImGui::MenuItem("Apply Collision Mask", nullptr, Options.DebugOverlayCollisionMask))
+				if (ImGui::MenuItem("Aplicar máscara de colisão", nullptr, Options.DebugOverlayCollisionMask))
 					Options.DebugOverlayCollisionMask ^= true;
 				ImGui::EndMenu();
 			}
-			if (ImGui::BeginMenu("Cheats"))
+			if (ImGui::BeginMenu("Trapaças"))
 			{
-				if (ImGui::MenuItem("hidden test", nullptr, pb::cheat_mode))
+				if (ImGui::MenuItem("Teste oculto", nullptr, pb::cheat_mode))
 					pb::PushCheat("hidden test");
 				if (ImGui::MenuItem("1max"))
 					pb::PushCheat("1max");
@@ -762,7 +762,7 @@ void winmain::RenderUi()
 					pb::PushCheat("rmax");
 				if (pb::FullTiltMode && ImGui::MenuItem("quote"))
 					pb::PushCheat("quote");
-				if (ImGui::MenuItem("easy mode", nullptr, control::easyMode))
+				if (ImGui::MenuItem("Modo fácil", nullptr, control::easyMode))
 					pb::PushCheat("easy mode");
 
 				ImGui::EndMenu();
@@ -801,7 +801,7 @@ void winmain::RenderUi()
 	}
 	if (ImGui::BeginPopupModal(exitText, nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		ImGui::Text("Exit the game?");
+		ImGui::Text("Sair do jogo?");
 		ImGui::Separator();
 
 		if (ImGui::Button(pb::get_rc_string(Msg::GenericOk), ImVec2(120, 0)))
@@ -1094,18 +1094,8 @@ void winmain::a_dialog()
 			if (ImGui::BeginTabItem("3DPB"))
 			{
 				ImGui::TextUnformatted(pb::get_rc_string(Msg::STRING139));
-				ImGui::TextUnformatted("Original game by Cinematronics, Microsoft");
+				ImGui::TextUnformatted("Jogo original da Cinematronics, Microsoft");
 				ImGui::Separator();
-
-				ImGui::TextUnformatted("Decompiled -> Ported to SDL");
-				ImGui::Text("Version %s", Version);
-				if (ImGui::SmallButton("Project home: https://github.com/k4zmu2a/SpaceCadetPinball"))
-				{
-#if SDL_VERSION_ATLEAST(2, 0, 14)
-					// Relatively new feature, skip with older SDL
-					SDL_OpenURL("https://github.com/k4zmu2a/SpaceCadetPinball");
-#endif
-				}
 				ImGui::EndTabItem();
 			}
 			ImGui::PushStyleColor(ImGuiCol_Button, 0);
@@ -1114,8 +1104,8 @@ void winmain::a_dialog()
 			if (ImGui::BeginTabItem("Full Tilt!"))
 			{
 				const ImVec2 buttonCenter = { -1, 0 };
-				ImGui::Button("Full Tilt! was created by Cinematronics for Maxis.", buttonCenter);
-				ImGui::Button("Version 1.1", buttonCenter);
+				ImGui::Button("O Full Tilt! foi criado pela Cinematronics para a Maxis.", buttonCenter);
+				ImGui::Button("Versão 1.1", buttonCenter);
 
 				auto tableRow = [](LPCSTR textA, LPCSTR textB)
 				{
@@ -1133,7 +1123,7 @@ void winmain::a_dialog()
 					ImGui::Separator();
 					if (ImGui::BeginTable("Cinematronics", 2))
 					{
-						tableRow("PROGRAMMING", "ART");
+						tableRow("PROGRAMAÇÃO", "ARTE");
 						tableRow("Michael Sandige", "John Frantz");
 						tableRow("John Taylor", "Ryan Medeiros");
 						ImGui::EndTable();
@@ -1141,7 +1131,7 @@ void winmain::a_dialog()
 					ImGui::Separator();
 					if (ImGui::BeginTable("Cinematronics", 2))
 					{
-						tableRow("DESIGN", "SOUND EFFECTS");
+						tableRow("DESIGN", "EFEITOS SONOROS");
 						tableRow("Kevin Gliner", "Matt Ridgeway");
 						tableRow(nullptr, "Donald S. Griffin");
 						ImGui::EndTable();
@@ -1149,14 +1139,14 @@ void winmain::a_dialog()
 					ImGui::Separator();
 					if (ImGui::BeginTable("Cinematronics", 2))
 					{
-						tableRow("DESIGN CONSULTANT", "MUSIC");
+						tableRow("CONSULTOR DE DESIGN", "MÚSICA");
 						tableRow("Mark Sprenger", "Matt Ridgeway");
 						ImGui::EndTable();
 					}
 					ImGui::Separator();
 					if (ImGui::BeginTable("Cinematronics", 2))
 					{
-						tableRow("PRODUCER", "VOICES");
+						tableRow("PRODUTOR", "VOZES");
 						tableRow("Kevin Gliner", "Mike McGeary");
 						tableRow(nullptr, "William Rice");
 						ImGui::EndTable();
@@ -1169,7 +1159,7 @@ void winmain::a_dialog()
 						ImGui::EndTable();
 					}
 					ImGui::Separator();
-					ImGui::Button("SPECIAL THANKS", buttonCenter);
+					ImGui::Button("AGRADECIMENTOS ESPECIAIS", buttonCenter);
 					if (ImGui::BeginTable("Cinematronics", 2))
 					{
 						tableRow("Paula Sandige", "Alex St. John");
@@ -1180,26 +1170,26 @@ void winmain::a_dialog()
 						tableRow("Rob Rosenhouse", "Lisa Acton");
 						ImGui::EndTable();
 					}
-					ImGui::TextUnformatted("Dan and Mitchell Roth");
+					ImGui::TextUnformatted("Dan e Mitchell Roth");
 
 					ImGui::TableNextColumn();
 					ImGui::Button("Maxis", buttonCenter);
 					ImGui::Separator();
 					if (ImGui::BeginTable("Maxis", 2))
 					{
-						tableRow("PRODUCER", "PRODUCT MANAGER");
+						tableRow("PRODUTOR", "GERENTE DE PRODUTO");
 						tableRow("John Csicsery", "Larry Lee");
 						ImGui::EndTable();
 					}
 					ImGui::Separator();
 					if (ImGui::BeginTable("Maxis", 2))
 					{
-						tableRow("LEAD TESTER", "QA MANAGER");
+						tableRow("TESTADOR LÍDER", "GERENTE DE GARANTIA DE QUALIDADE");
 						tableRow("Scott Shicoff", "Scott Shicoff");
 						ImGui::EndTable();
 					}
 					ImGui::Separator();
-					ImGui::Button("ADDITIONAL TESTING", buttonCenter);
+					ImGui::Button("TESTES ADICIONAIS", buttonCenter);
 					if (ImGui::BeginTable("Maxis", 2))
 					{
 						tableRow("Cathy Castro", "Robin Hines");
@@ -1212,7 +1202,7 @@ void winmain::a_dialog()
 					ImGui::Separator();
 					if (ImGui::BeginTable("Maxis", 2))
 					{
-						tableRow("ADDITIONAL ART", "ART DIRECTOR");
+						tableRow("ARTE ADICIONAL", "DIRETOR DE ARTE");
 						tableRow("Ocean Quigley", "Sharon Barr");
 						tableRow("Rick Macaraeg", "INSTALL PROGRAM");
 						tableRow("Charlie Aquilina", "Kevin O'Hare");
@@ -1221,14 +1211,14 @@ void winmain::a_dialog()
 					ImGui::Separator();
 					if (ImGui::BeginTable("Maxis", 2))
 					{
-						tableRow("INTRO MUSIC", "DOCUMENTATION");
+						tableRow("MÚSICA DE INTRODUÇÃO", "DOCUMENTAÇÃO");
 						tableRow("Brian Conrad", "David Caggiano");
 						tableRow("John Csicsery", "Michael Bremer");
 						tableRow(nullptr, "Bob Sombrio");
 						ImGui::EndTable();
 					}
 					ImGui::Separator();
-					ImGui::Button("SPECIAL THANKS", buttonCenter);
+					ImGui::Button("AGRADECIMENTOS ESPECIAIS", buttonCenter);
 					if (ImGui::BeginTable("Maxis", 2))
 					{
 						tableRow("Sam Poole", "Joe Scirica");
@@ -1338,20 +1328,20 @@ void winmain::HandleGameBinding(GameBindings binding, bool shortcut)
 void winmain::RenderFrameTimeDialog()
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2{300, 70});
-	if (ImGui::Begin("Frame Times", &DispGRhistory, ImGuiWindowFlags_NoScrollbar))
+	if (ImGui::Begin("Tempos de quadro", &DispGRhistory, ImGuiWindowFlags_NoScrollbar))
 	{
 		auto target = static_cast<float>(TargetFrameTime.count());
 		auto yMax = target * 2;
 
 		auto spin = Options.HybridSleep ? static_cast<float>(SpinThreshold.count()) : 0;
-		ImGui::Text("YMin:0ms, Target frame time:%03.04fms, YMax:%03.04fms, SpinThreshold:%03.04fms",
+		ImGui::Text("YMin:0ms, Tempo de quadro pretendido:%03.04fms, YMax:%03.04fms, SpinThreshold:%03.04fms",
 		            target, yMax, spin);
 
 		static bool scrollPlot = true;
-		ImGui::Checkbox("Scroll Plot", &scrollPlot);
+		ImGui::Checkbox("Gráfico de rolagem", &scrollPlot);
 
 		ImGui::SameLine();
-		ImGui::SliderFloat("Window Size", &gfrWindow, 0.1f, 15, "%.3fsec", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::SliderFloat("Tamanho da janela", &gfrWindow, 0.1f, 15, "%.3fsec", ImGuiSliderFlags_AlwaysClamp);
 
 		{
 			float average = 0.0f, dev = 0.0f;
@@ -1363,10 +1353,10 @@ void winmain::RenderFrameTimeDialog()
 			average /= static_cast<float>(gfrDisplay.size());
 			dev /= static_cast<float>(gfrDisplay.size());
 			char overlay[64];
-			sprintf(overlay, "avg %.3fms, dev %.3fms", average, dev);
+			sprintf(overlay, "méd %.3fms, dev %.3fms", average, dev);
 
 			auto region = ImGui::GetContentRegionAvail();
-			ImGui::PlotLines("Lines", gfrDisplay.data(), gfrDisplay.size(),
+			ImGui::PlotLines("Linhas", gfrDisplay.data(), gfrDisplay.size(),
 			                 scrollPlot ? gfrOffset : 0, overlay, 0, yMax, region);
 		}
 	}

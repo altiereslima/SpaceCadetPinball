@@ -121,8 +121,8 @@ optionsStruct options::Options
 		},
 	},
 	{"Sounds", true},
-	{"Music", false},
-	{"FullScreen", false},
+	{"Music", true},
+	{"FullScreen", true},
 	{"Players", 1},
 	{"Screen Resolution", -1},
 	{"UI Scale", 1.0f},
@@ -130,7 +130,7 @@ optionsStruct options::Options
 	{"Linear Filtering", true},
 	{"Frames Per Second", DefFps},
 	{"Updates Per Second", DefUps},
-	{"ShowMenu", true},
+	{"ShowMenu", false},
 	{"Uncapped Updates Per Second", false},
 	{"Sound Channels", DefSoundChannels},
 	{"HybridSleep", false},
@@ -151,7 +151,7 @@ optionsStruct options::Options
 	{"Debug Overlay AABB", true},
 	{"FontFileName", ""},
 	{"Language", translations::GetCurrentLanguage()->ShortName},
-	{"Hide Cursor", false},
+	{"Hide Cursor", true},
 };
 
 void options::InitPrimary()
@@ -359,14 +359,14 @@ void options::RenderControlDialog()
 		ImGui::TextUnformatted(pb::get_rc_string(Msg::KEYMAPPER_Groupbox1));
 
 		ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2{5, 10});
-		if (ImGui::BeginTable("Controls", 4,
+		if (ImGui::BeginTable("Controles", 4,
 		                      ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders |
 		                      ImGuiTableFlags_SizingStretchSame))
 		{
-			ImGui::TableSetupColumn("Control");
-			ImGui::TableSetupColumn("Binding 1");
-			ImGui::TableSetupColumn("Binding 2");
-			ImGui::TableSetupColumn("Binding 3");
+			ImGui::TableSetupColumn("Controle");
+			ImGui::TableSetupColumn("Atribuição 1");
+			ImGui::TableSetupColumn("Atribuição 2");
+			ImGui::TableSetupColumn("Atribuição 3");
 			ImGui::TableHeadersRow();
 
 			int rowHash = 0;
@@ -386,7 +386,7 @@ void options::RenderControlDialog()
 					ImGui::TableNextColumn();
 					if (ControlWaitingForInput == &input)
 					{
-						if (ImGui::Button("Press the key", ImVec2(-1, 0)))
+						if (ImGui::Button("Aperte uma tecla", ImVec2(-1, 0)))
 						{
 							ControlWaitingForInput = &input;
 						}
@@ -479,12 +479,12 @@ void options::MyUserData_ReadLine(ImGuiContext* ctx, ImGuiSettingsHandler* handl
 void* options::MyUserData_ReadOpen(ImGuiContext* ctx, ImGuiSettingsHandler* handler, const char* name)
 {
 	// There is only one custom entry
-	return strcmp(name, "Settings") == 0 ? &settings : nullptr;
+	return strcmp(name, "Configurações") == 0 ? &settings : nullptr;
 }
 
 void options::MyUserData_WriteAll(ImGuiContext* ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* buf)
 {
-	buf->appendf("[%s][%s]\n", handler->TypeName, "Settings");
+	buf->appendf("[%s][%s]\n", handler->TypeName, "Configurações");
 	for (const auto& setting : settings)
 	{
 		buf->appendf("%s=%s\n", setting.first.c_str(), setting.second.c_str());
@@ -511,17 +511,17 @@ std::string GameInput::GetFullInputDescription() const
 	switch (Type)
 	{
 	case InputTypes::Keyboard:
-		prefix = "Keyboard\n";
+		prefix = "Teclado\n";
 		break;
 	case InputTypes::Mouse:
-		prefix = "Mouse\n";
+		prefix = "Botão\n";
 		break;
 	case InputTypes::GameController:
-		prefix = "Controller\n";
+		prefix = "Controle\n";
 		break;
 	case InputTypes::None:
 	default:
-		return "Unused";
+		return "Não usado";
 	}
 
 	return prefix + GetShortInputDescription();
@@ -532,9 +532,9 @@ std::string GameInput::GetShortInputDescription() const
 	static LPCSTR mouseButtons[]
 	{
 		nullptr,
-		"Left",
-		"Middle",
-		"Right",
+		"esquerdo do mouse",
+		"do meio do mouse",
+		"direito do mouse",
 		"X1",
 		"X2",
 	};
