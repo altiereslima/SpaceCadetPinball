@@ -607,7 +607,7 @@ void winmain::RenderUi()
 
 				char buffer[80]{};
 				auto changed = false;
-				if (ImGui::MenuItem("Definir padrão UPS/FPS"))
+				if (ImGui::MenuItem("Definir padrão APS/FPS"))
 				{
 					changed = true;
 					Options.UpdatesPerSecond = options::DefUps;
@@ -625,7 +625,7 @@ void winmain::RenderUi()
 					changed = true;
 					Options.UpdatesPerSecond = std::max(Options.UpdatesPerSecond.V, Options.FramesPerSecond.V);
 				}
-				snprintf(buffer, sizeof buffer - 1, "UPS desbloqueado (taxa de FPS %02.02f)", UpdateToFrameRatio);
+				snprintf(buffer, sizeof buffer - 1, "APS desbloqueada (taxa de FPS %02.02f)", UpdateToFrameRatio);
 				if (ImGui::MenuItem(buffer, nullptr, Options.UncappedUpdatesPerSecond))
 				{
 					Options.UncappedUpdatesPerSecond ^= true;
