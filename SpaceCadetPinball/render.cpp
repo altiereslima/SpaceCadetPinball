@@ -375,11 +375,11 @@ void render::SpriteViewer(bool* show)
 	auto tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // No tint
 	auto border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
 
-	if (ImGui::Begin("Sprite viewer", show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar))
+	if (ImGui::Begin("Visualizador de sprites", show, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar))
 	{
 		if (ImGui::BeginMenuBar())
 		{
-			ImGui::SliderFloat("Sprite scale", &scale, 0.1f, 10.0f, "scale = %.3f");
+			ImGui::SliderFloat("Dimensionamento do sprite", &scale, 0.1f, 10.0f, "escala = %.3f");
 			ImGui::EndMenuBar();
 		}
 
@@ -398,7 +398,7 @@ void render::SpriteViewer(bool* show)
 			if (emptyGroup)
 				continue;
 
-			ImGui::Text("Group: %d, name:%s", group->GroupId, group->GroupName.c_str());
+			ImGui::Text("Grupo: %d, nome:%s", group->GroupId, group->GroupName.c_str());
 			for (int i = 0; i <= 2; i++)
 			{
 				auto bmp = group->GetBitmap(i);
@@ -406,7 +406,7 @@ void render::SpriteViewer(bool* show)
 					continue;
 
 				auto type = BitmapTypes[static_cast<uint8_t>(bmp->BitmapType)];
-				ImGui::Text("type:%s, size:%d, resolution: %dx%d, offset:%dx%d", type,
+				ImGui::Text("tipo:%s, tamanho:%d, resolução: %dx%d, deslocamento:%dx%d", type,
 				            bmp->Resolution,
 				            bmp->Width, bmp->Height, bmp->XPosition, bmp->YPosition);
 			}
