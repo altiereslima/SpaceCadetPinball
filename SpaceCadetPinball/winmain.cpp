@@ -689,7 +689,7 @@ void winmain::RenderUi()
 
 			if (ImGui::BeginMenu("Dados do jogo"))
 			{
-				if (ImGui::MenuItem("Preferir dados 3DPB", nullptr, Options.Prefer3DPBGameData))
+				if (ImGui::MenuItem("Preferir dados do Pinball 3D para Windows", nullptr, Options.Prefer3DPBGameData))
 				{
 					options::toggle(Menu1::Prefer3DPBGameData);
 				}

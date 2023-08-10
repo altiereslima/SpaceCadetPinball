@@ -134,7 +134,7 @@ optionsStruct options::Options
 	{"Uncapped Updates Per Second", false},
 	{"Sound Channels", DefSoundChannels},
 	{"HybridSleep", false},
-	{"Prefer 3DPB Game Data", false},
+	{"Prefer 3DPB Game Data", true},
 	{"Integer Scaling", false},
 	{"Sound Volume", DefVolume},
 	{"Music Volume", DefVolume},
